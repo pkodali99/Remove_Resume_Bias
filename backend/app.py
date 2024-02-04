@@ -27,22 +27,39 @@ class Redactor:
         pdf_file.save(pdf_path)
 
         doc = fitz.open(pdf_path)
-        for page_number in range(doc.page_count):
-            page = doc.load_page(page_number)
-            lines = page.get_text("text").split('\n')
+        for page in doc:
+            # Find text blocks and their font sizes
+            text_blocks = page.get_text("dict")["blocks"]
+            largest_font_size = 0
+            largest_text = None
 
-            # Get the first line matching the heading criteria
-            heading_line = self.get_heading(lines)
+            # Determine the largest font size and corresponding text
+            for block in text_blocks:
+                if "lines" in block:
+                    for line in block["lines"]:
+                        for span in line["spans"]:
+                            if span["size"] > largest_font_size:
+                                largest_font_size = span["size"]
+                                largest_text = span["text"]
 
-            if heading_line:
-                # Replace the heading text with a mask (e.g., '[MASKED]')
-                lines[0] = lines[0].replace(heading_line, '[MASKED]')
+            # Mask the text with the largest font
+            if largest_text:
+                for block in text_blocks:
+                    if "lines" in block:
+                        for line in block["lines"]:
+                            for span in line["spans"]:
+                                if span["text"] == largest_text:
+                                    rect = fitz.Rect(span["bbox"])
+                                    page.add_redact_annot(rect, fill=(0, 0, 0))  # Black color mask
 
-            # Continue with the redaction logic for the rest of the page
+        page.apply_redactions()
+
+        # Continue with the redaction logic for the rest of the page
 
         redacted_filename = f'redacted_{pdf_file.filename}'
         redacted_path = os.path.join(output_dir, redacted_filename)
         doc.save(redacted_path)
+        doc.close()
         print(f"Successfully redacted. Redacted PDF saved at: {redacted_path}")
         return redacted_path
 
