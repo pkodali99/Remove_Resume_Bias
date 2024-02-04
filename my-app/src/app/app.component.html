@@ -51,6 +51,13 @@
     <div class="col-md-6">
       <button class="btn btn-primary" (click)="callRedactionAPI()">Call Redaction API</button>
     </div>
+    <!-- Display the Download PDF button only if the redaction is successful -->
+    <div class="col-md-6" *ngIf="redactionCompleted">
+      <!-- Use ngIf to check redactionCompleted -->
+      <a [href]="'backend/redacted_pdfs/' + (selectedFile?.name || '')" download="downloaded_document.pdf">
+        <button class="btn btn-success">Download PDF</button>
+      </a>
+    </div>
   </div>
 
   <!-- Router Outlet -->
