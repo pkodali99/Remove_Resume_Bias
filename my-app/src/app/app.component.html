@@ -1,10 +1,63 @@
 <!-- app.component.html -->
 
-<div>
-  <label for="fileInput">Select PDF file:</label>
-  <input type="file" id="fileInput" (change)="onFileSelected($event)">
+<div class="container mt-5">
+
+  <!-- About Us Section -->
+  <div class="row">
+    <div class="col-md-12">
+      <h2>About Us</h2>
+      <p>Welcome to our platform! We are on a mission to revolutionize the hiring process. Our platform is committed to eliminating bias in resume screening by addressing one of its critical aspects - the impact of names. Traditional Applicant Tracking Systems (ATS) can unintentionally perpetuate biases, and we aim to change that narrative.</p>
+    </div>
+  </div>
+
+  <!-- Readme Section -->
+  <div>
+    <h2>Introduction:</h2>
+    <p>In the landscape of automated hiring, racial biases can inadvertently seep into algorithms when exposed to biased datasets. Our commitment is to address and rectify this issue by focusing on redacting sensitive information, specifically names, from resumes.</p>
+  </div>
+
+  <div>
+    <h2>The Challenge:</h2>
+    <p>Hiring algorithms, essential for managing large applicant pools, have a significant flaw - they can perpetuate racial biases. Resume-scanning algorithms, in particular, play a pivotal role by screening out resumes before human resources managers have a chance to review them. These algorithms are often trained on historical data, inheriting biases present in past hiring decisions.</p>
+    <p>In a notable experiment, resumes were selectively chosen based on names perceived as "white-sounding." By training an algorithm on this biased dataset, the system learned to filter out resumes with "black-sounding" names. This automated discrimination exacerbates racial disparities in employment, housing, and even access to student loans.</p>
+  </div>
+
+  <div>
+    <h2>Our Solution:</h2>
+    <p>The Redaction API aims to break the chain of biased algorithms by providing a tool that focuses on fairness and impartiality. Our redaction mechanism targets names in resumes, ensuring that candidates are evaluated based on their qualifications and skills rather than subjective criteria related to their names.</p>
+  </div>
+
+
+  <!-- Try Me Section -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <h2>Try Me</h2>
+      <p>Feel free to test our redaction API and experience the power of document processing.</p>
+    </div>
+  </div>
+
+  <!-- File Input Section -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="fileInput">Select PDF file:</label><br>
+        <input type="file" class="form-control-file" id="fileInput" (change)="onFileSelected($event)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Call Redaction API Button -->
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <button class="btn btn-primary" (click)="callRedactionAPI()">Call Redaction API</button>
+    </div>
+  </div>
+
+  <!-- Router Outlet -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
 </div>
-
-<button (click)="callRedactionAPI()">Call Redaction API</button>
-
-<router-outlet></router-outlet>
